@@ -62,7 +62,7 @@ def dataprocess(driver,dataname,*query_list):
     # result = driver.execute_script("return window.fetchResult;")
     # 等待 JavaScript 中的异步操作完成
     try:
-        WebDriverWait(driver, 10).until(wait_for_js_variable(driver, "window.fetchResult"))
+        WebDriverWait(driver, 20).until(wait_for_js_variable(driver, "window.fetchResult"))
         result = driver.execute_script("return window.fetchResult;")
         if query_list:
             result = json.loads(result)
