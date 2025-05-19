@@ -7,6 +7,107 @@ const queryEndDate = today.toISOString().split('T')[0]; // 格式化为 YYYY-MM-
 window.fetchTemRes = [];
 window.fetchComplete = false;
 window.fetchResult = null;
+let activeRequests = 0;
+
+// 延迟函数（返回Promise）
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// 定义函数来递归获取所有页的数据
+async function fetchAllPages(querywhere, pageIndex = 0) {
+    activeRequests++;
+    try {
+        let body;
+        if (querywhere === "G") {
+            body = `query_where=${querywhere}&queryStartDate=0000-01-01&queryEndDate=9999-12-31&queryType=2&pageIndex=${pageIndex}`;
+        } else if (querywhere === "H") {
+            body = `query_where=${querywhere}&queryStartDate=0000-01-01&queryEndDate=${queryEndDate}&pageIndex=${pageIndex}`;
+        }
+
+        let success = false;
+        let attempt = 0;
+        let data = null;
+
+        // 请求重试逻辑
+        while (attempt < 3 && !success) {
+            try {
+                const response = await fetch('https://kyfw.12306.cn/otn/queryOrder/queryMyOrder', {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    },
+                    body: body
+                });
+
+                if (!response.ok) throw new Error(`HTTP错误! 状态码: ${response.status}`);
+                data = await response.json();
+                success = true;
+            } catch (error) {
+                attempt++;
+                if (attempt >= 3) {
+                    throw new Error(`请求失败，已达最大重试次数 (${error.message})`);
+                }
+                console.log(`请求失败，${3 - attempt}次重试机会剩余，2秒后重试...`);
+                await delay(2000);
+            }
+        }
+
+        // 处理成功响应
+        if (data.httpstatus && data.data && data.data.OrderDTODataList) {
+            const results = data;
+            const total = data.data.order_total_number;
+
+            window.fetchTemRes = window.fetchTemRes.concat(results);
+            console.log(`[${querywhere}] 获取第${pageIndex + 1}页，当前总数: ${window.fetchTemRes.length}`);
+
+            if (window.fetchTemRes.length < total) {
+                // 生成随机延迟（0.1-1.5秒）
+                const randomDelay = Math.floor(Math.random() * 1400) + 100;
+                await delay(randomDelay);
+                await fetchAllPages(querywhere, pageIndex + 1);
+            } else {
+                console.log(`[${querywhere}] 所有数据获取完成`);
+            }
+        } else {
+            throw new Error('响应数据格式异常');
+        }
+    } catch (error) {
+        console.error(`[${querywhere}] 第${pageIndex + 1}页获取失败:`, error.message);
+    } finally {
+        activeRequests--;
+        checkFetchComplete();
+    }
+}
+
+// 检查 fetch 请求是否都已完成
+function checkFetchComplete() {
+    if (activeRequests === 0) {
+        window.fetchComplete = true;
+        processFetchResult();
+    }
+}
+
+// 处理 fetch 结果的函数
+function processFetchResult() {
+    window.fetchResult = window.fetchTemRes;
+    console.log('最终结果',window.fetchResult);
+}
+
+fetchAllPages("G");
+fetchAllPages("H");
+
+
+/*
+// 获取当前日期的前一日
+const today = new Date();
+today.setDate(today.getDate() - 1);
+const queryEndDate = today.toISOString().split('T')[0]; // 格式化为 YYYY-MM-DD
+
+// 创建一个全局变量来存储结果和状态
+window.fetchTemRes = [];
+window.fetchComplete = false;
+window.fetchResult = null;
 let activeRequests = 0; // 跟踪当前活动的请求数量
 
 // 定义函数来递归获取所有页的数据
@@ -79,6 +180,7 @@ function processFetchResult() {
 
 fetchAllPages("G");
 fetchAllPages("H");
+*/
 
 
 /*
