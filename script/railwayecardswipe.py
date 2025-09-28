@@ -80,9 +80,9 @@ def railwayecardswipedata(file_name,check_id,sort_id,input_type,*input_json_data
 
 if __name__ == '__main__':
     
-    file_name_1 = "railwayecardecardswipe.csv"
+    file_name_1 = get_file_path("railwayecardswipe.csv")
     check_id_1 = "swipeNo"
-    sort_id_1 = "swipeNo"
+    sort_id_1 = ["inDate","inTime"]
 
     railwayecardswipedata(file_name_1,check_id_1,sort_id_1,1)
 
