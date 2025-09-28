@@ -17,14 +17,17 @@ current_directory = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(current_directory, 'script'))
 
 from general_func import *
-from railwayinvoice import railwayinvoicedata
-from railwaymemtrade import railwaymemtradedata
-from railwaymemtradedetail import railwaymemtradedetaildata
+from railwaypsr import railwaypsrdata
 from railwaytrip import railwaytripdata
 from railwaytripdetail import railwaytripdetaildata
 from railwayalternate import railwayalternatedata
-from railwaypsr import railwaypsrdata
+from railwaymemtrade import railwaymemtradedata
+from railwaymemtradedetail import railwaymemtradedetaildata
+from railwayinvoice import railwayinvoicedata
+from railwaycomminvoice import railwaycomminvoicedata
 from railwaynotice import railwaynoticedata
+from railwaycommorder import railwaycommorderdata
+from railwaycommreserve import railwaycommreservedata
 from tripinfo import read_trip_info
 from memtradeinfo import read_trade_info
 from extnoinfo import read_extno_info
@@ -52,7 +55,7 @@ def dataprocess(driver,dataname,*query_list):
     # 执行 js
     with open(f'./script/railway{dataname}.js', 'r', encoding='utf-8') as file:
         js_code = file.read()
-
+        
     # 执行 JavaScript 并获取返回的 JSON 数据
     if query_list:
         json_list = json.dumps(query_list)
@@ -62,7 +65,7 @@ def dataprocess(driver,dataname,*query_list):
     # result = driver.execute_script("return window.fetchResult;")
     # 等待 JavaScript 中的异步操作完成
     try:
-        WebDriverWait(driver, 20).until(wait_for_js_variable(driver, "window.fetchResult"))
+        WebDriverWait(driver, 60).until(wait_for_js_variable(driver, "window.fetchResult"))
         result = driver.execute_script("return window.fetchResult;")
         if query_list:
             result = json.loads(result)
@@ -104,13 +107,13 @@ def main():
     # WebDriverWait(driver, 120).until(element_not_present(driver, locator))
     print("If ok, press Enter to continue...")
     input()
-    
+       
     # 本人车票数据
     dataprocess(driver,"psr")
     
     # 火车票订单数据
-    dataprocess(driver,"trip")
     driver.get("https://kyfw.12306.cn/otn/view/train_order.html")
+    dataprocess(driver,"trip")
     element_0 = WebDriverWait(driver, 10).until(
         EC.visibility_of_element_located((By.XPATH, '//li[@data-type="1"]/a[text()="历史订单"]'))
     )
@@ -129,10 +132,10 @@ def main():
     dataprocess(driver,"memtradedetail",memtradeinfolist)
 
     # 电子发票身份核验
-    driver.get("https://kyfw.12306.cn/otn/view/invoice_index.html")
+    '''driver.get("https://kyfw.12306.cn/otn/view/invoice_index.html")
 
     element_1 = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, ".remind-btns.verfifyModal a.btn.btn-secondary.w210"))
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "#toolbar_Div > div.wrapper.content > div.center-box > div > div.panel-remind.remind02.remind03 > div.remind-con > div.remind-btns > a.btn.btn-secondary.verfifyModal.w150"))
         )
     element_1.click()
 
@@ -145,15 +148,25 @@ def main():
             url_contains(driver, "https://kyfw.12306.cn/otn/view/invoice_ticket_list.html")
         )
         # print("Please scan the QR code to complete identity verification. If ok, press Enter to continue...")
-        # input()
+        # input()'''
+    driver.get("https://kyfw.12306.cn/otn/view/invoice_ticket_list.html")
     
     # 电子发票数据
     dataprocess(driver,"invoice")
+
+    # 计次定期票电子发票数据
+    driver.get("https://kyfw.12306.cn/otn/view/invoice_commutationTicket_list.html")
+    dataprocess(driver,"comminvoice")
 
     # 行程信息提示数据
     extnoinfolist = read_extno_info([file_name_psr,file_name_trip,file_name_alternate,file_name_memtrade,file_name_memtradedetail,file_name_invoice])
     time.sleep(0.5)
     dataprocess(driver,"notice",extnoinfolist)
+
+    # 计次定期票数据
+    driver.get("https://kyfw.12306.cn/otn/view/commutation_order.html")
+    dataprocess(driver,"commorder",[0,1,2,3,4,5,6,7,8,9])
+    dataprocess(driver,"commreserve",[0,1,2,3,4,5,6,7,8,9])
 
     input("Press Enter to continue...")
 
@@ -182,8 +195,17 @@ if __name__ == "__main__":
     file_name_invoice = "railwayinvoice.csv"
     check_id_invoice = "ext_ticket_no"
     sort_id_invoice = "local_start_time"
+    file_name_comminvoice = "railwaycomminvoice.csv"
+    check_id_comminvoice = "orderId"
+    sort_id_comminvoice = "saleTime"
     file_name_notice = "railwaynotice.csv"
     check_id_notice = "ext_ticket_no"
     sort_id_notice = "local_start_time"
+    file_name_commorder = "railwaycommorder.csv"
+    check_id_commorder = "orderId"
+    sort_id_commorder = "saleTime"
+    file_name_commreserve = "railwaycommreserve.csv"
+    check_id_commreserve = "sequenceNo"
+    sort_id_commreserve = "reserveTime"
 
     main()
