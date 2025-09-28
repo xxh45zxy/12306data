@@ -95,7 +95,7 @@ if __name__ == '__main__':
     
     file_name_1 = "railwaytrip.csv"
     check_id_1 = "sequence_no"
-    sort_id_1 = "start_train_date_page"
+    sort_id_1 = "order_date"
 
     railwaytripdata(file_name_1,check_id_1,sort_id_1,1)
 
