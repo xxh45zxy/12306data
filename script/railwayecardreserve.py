@@ -80,7 +80,7 @@ def railwayecardreservedata(file_name,check_id,sort_id,input_type,*input_json_da
 
 if __name__ == '__main__':
     
-    file_name_1 = "railwayecardreserve.csv"
+    file_name_1 = get_file_path("railwayecardreserve.csv")
     check_id_1 = "sequenceNo"
     sort_id_1 = "reserveTime"
 
