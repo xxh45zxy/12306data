@@ -131,7 +131,7 @@ def main():
         EC.visibility_of_element_located((By.XPATH, '//li[@data-type="1"]/a[text()="历史订单"]'))
     )
     element_0.click()
-    tripinfolist = read_trip_info([file_name_psr,file_name_trip,file_name_alternate,file_name_memtrade,file_name_memtradedetail,file_name_invoice])
+    tripinfolist = read_trip_info([file_name_psr,file_name_trip,file_name_alternate,file_name_memtrade,file_name_memtradedetail,file_name_invoice,file_name_commreserve])
     time.sleep(0.5)
     dataprocess(driver,"tripdetail",tripinfolist)
     
