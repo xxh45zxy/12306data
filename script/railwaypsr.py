@@ -83,7 +83,7 @@ def railwaypsrdata(file_name,check_id,sort_id,input_type,*input_json_data):
 if __name__ == '__main__':
     
     file_name_1 = "railwaypsr.csv"
-    check_id_1 = "trade_no"
+    check_id_1 = "ext_ticket_no"
     sort_id_1 = "local_start_time"
 
     railwaymemtradedata(file_name_1,check_id_1,sort_id_1,1)
