@@ -44,6 +44,7 @@ if __name__ == "__main__":
     file_path_list.append(os.path.join(parent_directory, 'railwaymemtrade.csv'))
     file_path_list.append(os.path.join(parent_directory, 'railwaymemtradedetail.csv'))
     file_path_list.append(os.path.join(parent_directory, 'railwayinvoice.csv'))
+    file_path_list.append(os.path.join(parent_directory, 'railwaycommreserve.csv'))
     trade_info = read_trip_info(file_path_list)
     print(trade_info)
     print(len(trade_info))
