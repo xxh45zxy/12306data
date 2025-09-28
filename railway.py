@@ -6,7 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import json
 import time
 from webdrivermanager_cn.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.microsoft import EdgeChromiumDriverManager
 import sys
 import os
  
@@ -52,38 +52,51 @@ def element_not_present(driver, locator):
     return condition
 
 def dataprocess(driver,dataname,*query_list):
-    # 执行 js
-    with open(f'./script/railway{dataname}.js', 'r', encoding='utf-8') as file:
-        js_code = file.read()
-        
-    # 执行 JavaScript 并获取返回的 JSON 数据
-    if query_list:
-        json_list = json.dumps(query_list)
-        driver.execute_script(f"{js_code}; init({json_list});")
-    else:
-        driver.execute_script(js_code)
-    # result = driver.execute_script("return window.fetchResult;")
-    # 等待 JavaScript 中的异步操作完成
     try:
-        WebDriverWait(driver, 60).until(wait_for_js_variable(driver, "window.fetchResult"))
-        result = driver.execute_script("return window.fetchResult;")
+        # 执行 js
+        with open(f'./script/railway{dataname}.js', 'r', encoding='utf-8') as file:
+            js_code = file.read()
+            
+        # 执行 JavaScript 并获取返回的 JSON 数据
         if query_list:
-            result = json.loads(result)
-    except Exception as e:
-        print(f"Failed to get fetch result: {e}")
+            json_list = json.dumps(query_list)
+            driver.execute_script(f"{js_code}; init({json_list});")
+        else:
+            driver.execute_script(js_code)
+        # result = driver.execute_script("return window.fetchResult;")
+        # 等待 JavaScript 中的异步操作完成
+        try:
+            WebDriverWait(driver, 60).until(wait_for_js_variable(driver, "window.fetchResult"))
+            result = driver.execute_script("return window.fetchResult;")
+            if query_list:
+                result = json.loads(result)
+        except Exception as e:
+            print(f"Failed to get fetch result: {e}")
 
-    # 将返回的 JSON 数据作为参数传入 myfunction
-    globals()[f'railway{dataname}data'](
-        globals()[f'file_name_{dataname}'],
-        globals()[f'check_id_{dataname}'],
-        globals()[f'sort_id_{dataname}'],
-        0,
-        result)
-    print(f'{dataname} data completed.')
+        # 将返回的 JSON 数据作为参数传入 myfunction
+        globals()[f'railway{dataname}data'](
+            globals()[f'file_name_{dataname}'],
+            globals()[f'check_id_{dataname}'],
+            globals()[f'sort_id_{dataname}'],
+            0,
+            result)
+        print(f'{dataname} data completed.')
+    except Exception as e:
+        print(f"{dataname} data got something wrong: ")
+        print(e)
 
 
 def main():
-    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+
+    # 判断浏览器类型
+    browser_type = input("If you are using Edge, enter 1. If you are using Chrome, just press Enter. Other browsers are not currently supported.")
+
+    if browser_type == "1":
+        from selenium.webdriver.edge.service import Service as EdgeService
+        driver = webdriver.Edge(service = EdgeService(EdgeChromiumDriverManager(url='https://msedgedriver.microsoft.com', latest_release_url='https://msedgedriver.microsoft.com/LATEST_RELEASE').install()))
+    else:
+        from selenium.webdriver.chrome.service import Service as ChromeService
+        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
 
     # 打开登录页，自动选择扫码登录
     driver.get("https://kyfw.12306.cn/otn/resources/login.html")
