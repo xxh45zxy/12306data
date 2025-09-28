@@ -1,5 +1,18 @@
 import json  
 import pandas as pd
+import os
+
+def get_file_path(file_name):
+    # 获取当前脚本的目录
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+    
+    # 构建上级目录的路径
+    parent_directory = os.path.join(current_directory, '..')
+    
+    # 构建文件的完整路径
+    file_name_1 = os.path.join(parent_directory, file_name)
+
+    return file_name_1
 
 def read_existing_data(file_name):
     
