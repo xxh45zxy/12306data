@@ -19,7 +19,7 @@ function init(jsonString) {
                 headers: {
                     "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
                 },
-                body: `query_type=${encodeURIComponent(query_type)}&page_index=1&page_size=10`
+                body: `query_type=${encodeURIComponent(query_type)}&page_index=0`
             })
             .then(response => {
                 if (!response.ok) {

@@ -218,7 +218,7 @@ if __name__ == "__main__":
     check_id_commorder = "orderId"
     sort_id_commorder = "saleTime"
     file_name_commreserve = "railwaycommreserve.csv"
-    check_id_commreserve = "sequenceNo"
-    sort_id_commreserve = "reserveTime"
+    check_id_commreserve = ["sequenceNo","batchNo","ticketNo"]
+    sort_id_commreserve = ["startTrainDate","startTime"]#reserveTime
 
     main()
