@@ -68,7 +68,7 @@
 按`Win`+`R`，输入`cmd`，随后输入以下代码安装必要的依赖，回车，等待安装完成。
 
 ```bash
-pip install pandas selenium webdriver-manager webdrivermanager_cn
+pip install pandas==2.0.2 selenium==4.24.0 webdriver-manager==4.0.2 webdrivermanager_cn==2.4.1
 ```
 
 ### 下载并解压脚本
@@ -83,6 +83,8 @@ pip install pandas selenium webdriver-manager webdrivermanager_cn
 
 如果你希望使用Chrome浏览器，直接回车。如果你希望使用Edge浏览器，输入`1`，回车。其他浏览器暂不支持。
 
+**如果你使用Chrome浏览器，但经常发生错误，可以考虑换用Edge浏览器。**
+
 #### 登录和身份核验
 
 等待浏览器窗口自动弹出。**如果是第一次使用本脚本，这一步可能较慢。**
@@ -93,11 +95,11 @@ pip install pandas selenium webdriver-manager webdrivermanager_cn
 
 #### 等候脚本运行完成
 
-此时脚本会不断弹出提示，等待即可。
+此时脚本会不断弹出提示，例如`原有3行，现有4行，新增1行。` `trip data completed.`等。如果脚本没有停下来等候选择，无需操作，静候脚本自动运行。
 
-如果脚本提示选择，按实际情况输入字符选择即可，详见注意事项。
+**如果脚本提示需选择，按实际情况输入字符选择**，详见注意事项第3点。
 
-脚本提示`Press Enter to continue...`时，按回车关闭脚本。
+脚本提示`Press Enter to continue...`时，回车，关闭脚本。
 
 #### 查看结果
 
@@ -115,7 +117,7 @@ pip install pandas selenium webdriver-manager webdrivermanager_cn
 
   如果两个操作时间相差超过一个月，请输入`0`，回车，保留所有数据，并请报告作者。
 - 如果发现数据不全，可以多运行几次。
-- 如果程序经常报错，可能是触发了12306风控，可以过几天再运行。
+- 如果脚本经常报错，可能是触发了12306风控，可以过几天再运行。
 
 ## 问题报告&功能建议
 
