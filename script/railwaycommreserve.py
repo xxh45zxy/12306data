@@ -88,8 +88,8 @@ def railwaycommreservedata(file_name,check_id,sort_id,input_type,*input_json_dat
 if __name__ == '__main__':
     
     file_name_1 = get_file_path("railwaycommreserve.csv")
-    check_id_1 = "sequenceNo"
-    sort_id_1 = "reserveTime"
+    check_id_1 = ["sequenceNo","batchNo","ticketNo"]
+    sort_id_1 = ["startTrainDate","startTime"]#reserveTime
 
     railwaycommreservedata(file_name_1,check_id_1,sort_id_1,1)
 
