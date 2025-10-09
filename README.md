@@ -68,7 +68,7 @@
 按`Win`+`R`，输入`cmd`，回车。在弹出的窗口中，输入以下代码以安装必要的依赖，回车，等待安装完成。
 
 ```bash
-pip install pandas==2.0.2 selenium==4.24.0 webdriver-manager==4.0.2 webdrivermanager_cn==2.4.1
+pip install numpy==1.24.2 pandas==2.0.2 selenium==4.24.0 webdriver-manager==4.0.2 webdrivermanager_cn==2.4.1
 ```
 
 ### 2.4 下载并解压脚本
