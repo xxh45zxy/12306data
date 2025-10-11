@@ -2,6 +2,7 @@
 window.fetchTemRes = [];
 window.fetchComplete = false;
 window.fetchResult = null;
+window.nowtotal = 0;
 let activeRequests = 0; // 跟踪当前活动的请求数量
 
 // 定义函数来递归获取所有页的数据
@@ -28,9 +29,10 @@ function fetchAllPages(pageIndex = 1) {
             // 将当前页的结果添加到结果数组中
             window.fetchTemRes = window.fetchTemRes.concat(results);
 
-            console.log(`Fetched page ${pageIndex}, total results so far: ${window.fetchTemRes.length}`);
+            window.nowtotal += data.data.psr.results.length
+            console.log(`Fetched page ${pageIndex}, total results so far: ${window.nowtotal}`);
             // 如果当前页的结果数量小于总数，继续请求下一页
-            if (window.fetchTemRes.length < total) {
+            if (window.nowtotal < total) {
                 fetchAllPages(pageIndex + 1); // 递归调用，获取下一页
             } else {
                 console.log('All results fetched.');
