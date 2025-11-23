@@ -142,8 +142,20 @@ def save_csv(file_name,check_id,sort_id,existing_data,all_new_data,sort_ok,keep_
             combined_data_unique = combined_data.drop_duplicates()'''
 
         if sort_ok == 1:
-            # 根据tradeNo列进行升序排列
-            combined_data_sorted = combined_data_unique.sort_values(by=sort_id)
+            # 根据sort_id列进行升序排列
+            if "railwaymemtrade.csv" in file_name and sort_id == ["trade_time","start_date"]:
+                combined_data_unique.apply(
+                    lambda row: (pd.to_datetime(row[sort_id[0]]) if pd.notna(row[sort_id[0]]) 
+                                else pd.to_datetime(str(int(row[sort_id[1]])), format='%Y%m%d')), 
+                    axis=1
+                )
+                combined_data_sorted = combined_data_unique.iloc[combined_data_unique.apply(
+                    lambda row: (pd.to_datetime(row[sort_id[0]]) if pd.notna(row[sort_id[0]]) 
+                                else pd.to_datetime(str(int(row[sort_id[1]])), format='%Y%m%d')), 
+                    axis=1
+                    ).argsort()].reset_index(drop=True)
+            else:
+                combined_data_sorted = combined_data_unique.sort_values(by=sort_id)
         else:
             combined_data_sorted = combined_data_unique
           

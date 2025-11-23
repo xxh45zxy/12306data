@@ -81,9 +81,9 @@ def railwaymemtradedata(file_name,check_id,sort_id,input_type,*input_json_data):
 
 if __name__ == '__main__':
     
-    file_name_1 = "railwaymemtrade.csv"
+    file_name_1 = get_file_path("railwaymemtrade.csv")
     check_id_1 = "trade_id"
-    sort_id_1 = "trade_time"
+    sort_id_1 = ["trade_time","start_date"]
 
     railwaymemtradedata(file_name_1,check_id_1,sort_id_1,1)
 

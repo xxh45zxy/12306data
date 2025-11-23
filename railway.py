@@ -201,7 +201,7 @@ if __name__ == "__main__":
     sort_id_alternate = "trace_id"
     file_name_memtrade = "railwaymemtrade.csv"
     check_id_memtrade = "trade_id"
-    sort_id_memtrade = "trade_time"
+    sort_id_memtrade = ["trade_time","start_date"]
     file_name_memtradedetail = "railwaymemtradedetail.csv"
     check_id_memtradedetail = "trade_id"
     sort_id_memtradedetail = "train_date"
