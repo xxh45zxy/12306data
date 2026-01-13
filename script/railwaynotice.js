@@ -4,15 +4,23 @@ const allData = {};
 // 创建一个全局变量来存储结果
 window.fetchResult = null;
 
+//定义延迟函数
+function sleep(ms) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+  }
+
 // 定义一个函数来接收传入的 JSON 字符串
-function init(jsonString) {
+async function init(jsonString) {
     try {
         // 将 JSON 字符串解析为 JavaScript 对象或数组
         const extno_info_list = jsonString;
         // 创建一个数组来存储所有的 Promise
-        const promises = extno_info_list[0].map((info, index) => {
+        const promises = extno_info_list[0].map(async (info, index) => {
             const extno = info;
-            
+            await sleep(index*100);
+
             // 执行 fetch 请求并返回一个 Promise
             return fetch('https://kyfw.12306.cn/otn/psr/getItineraryNotice', {
                 method: 'POST',
