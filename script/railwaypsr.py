@@ -86,7 +86,7 @@ if __name__ == '__main__':
     check_id_1 = "ext_ticket_no"
     sort_id_1 = "local_start_time"
 
-    railwaymemtradedata(file_name_1,check_id_1,sort_id_1,1)
+    railwaypsrdata(file_name_1,check_id_1,sort_id_1,1)
 
     print("已完成。")
 

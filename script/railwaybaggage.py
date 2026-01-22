@@ -3,7 +3,7 @@ import pandas as pd
 from general_func import *
 
 
-def railwaycommorderdata(file_name,check_id,sort_id,input_type,*input_json_data):
+def railwaybaggagedata(file_name,check_id,sort_id,input_type,*input_json_data):
 
     existing_data = read_existing_data(file_name)
 
@@ -87,6 +87,6 @@ if __name__ == '__main__':
     check_id_1 = "billCode"
     sort_id_1 = "details_1_scantime"
 
-    railwaycommorderdata(file_name_1,check_id_1,sort_id_1,1)
+    railwaybaggagedata(file_name_1,check_id_1,sort_id_1,1)
 
     print("已完成。")
