@@ -85,6 +85,8 @@ pip install numpy==1.24.2 pandas==2.0.2 selenium==4.24.0 webdriver-manager==4.0.
 
 **运行脚本前，请关闭所有由脚本产生的`.csv`文件。**
 
+运行脚本前可以考虑修改`time_limit`参数，详见[注意事项](#3-注意事项)第5点。
+
 #### 2.5.1 选择浏览器
 
 如果你希望使用Chrome浏览器，直接回车。如果你希望使用Edge浏览器，输入`1`，回车。其他浏览器暂不支持。
@@ -129,7 +131,9 @@ pip install numpy==1.24.2 pandas==2.0.2 selenium==4.24.0 webdriver-manager==4.0.
 
   如果两个操作时间相差超过一个月，请输入`0`，回车，保留所有数据，并请报告作者。
 - 如果你的订单非常多，在运行`tripdetail` `notice`等功能时，速度可能会很慢。无需担心，此时你可以等候提示弹出，也可以打开浏览器开发者工具查看运行状态。
-- 脚本可以在`railway.py`中设置`time_limit`参数，防止提交的`tripdetail`和`notice`无效查询过多。单位为日，默认80日，即默认查询80日以内的`tripdetail`和`notice`数据。
+- 脚本可以在`railway.py`中设置`time_limit`参数，防止提交的`tripdetail`和`notice`无效查询过多。单位为日，默认为`80`，即默认查询80日以内的`tripdetail`和`notice`数据。
+  
+  学生票等特殊订单在1年内均会保留数据，如第一次使用本脚本且希望查询，可将`time_limit`参数设置为`0`，此时可查询不限时间的`tripdetail`和`notice`数据。确认数据完整后建议将`time_limit`参数改回`80`。
 - 如果发现数据不全，可以多运行几次。
 - 如果脚本经常报错，可能是触发了12306风控，可以过几天再运行。
 
