@@ -66,7 +66,7 @@ def dataprocess(driver,dataname,*query_list):
         # result = driver.execute_script("return window.fetchResult;")
         # 等待 JavaScript 中的异步操作完成
         try:
-            WebDriverWait(driver, 60).until(wait_for_js_variable(driver, "window.fetchResult"))
+            WebDriverWait(driver, 120).until(wait_for_js_variable(driver, "window.fetchResult"))
             result = driver.execute_script("return window.fetchResult;")
             if query_list:
                 result = json.loads(result)
@@ -131,7 +131,8 @@ def main():
         EC.visibility_of_element_located((By.XPATH, '//li[@data-type="1"]/a[text()="历史订单"]'))
     )
     element_0.click()
-    tripinfolist = read_trip_info([file_name_psr,file_name_trip,file_name_alternate,file_name_memtrade,file_name_memtradedetail,file_name_invoice,file_name_commreserve])
+    # tripinfolist = read_trip_info([file_name_psr,file_name_trip,file_name_alternate,file_name_memtrade,file_name_memtradedetail,file_name_invoice,file_name_commreserve])
+    tripinfolist = read_trip_info([file_name_psr,file_name_trip,file_name_alternate,file_name_memtrade,file_name_memtradedetail,file_name_invoice,file_name_commreserve,file_name_ecardreserve], time_limit)
     time.sleep(0.5)
     dataprocess(driver,"tripdetail",tripinfolist)
     
@@ -172,7 +173,8 @@ def main():
     dataprocess(driver,"comminvoice")
 
     # 行程信息提示数据
-    extnoinfolist = read_extno_info([file_name_psr,file_name_trip,file_name_alternate,file_name_memtrade,file_name_memtradedetail,file_name_invoice])
+    # extnoinfolist = read_extno_info([file_name_psr,file_name_trip,file_name_alternate,file_name_memtrade,file_name_memtradedetail,file_name_invoice])
+    extnoinfolist = read_extno_info([file_name_psr,file_name_trip,file_name_invoice], time_limit)
     time.sleep(0.5)
     dataprocess(driver,"notice",extnoinfolist)
 
@@ -186,6 +188,9 @@ def main():
     # driver.quit()
 
 if __name__ == "__main__":
+
+    # tripdetail和notice查询时间限制
+    time_limit = 80
 
     file_name_psr = "railwaypsr.csv"
     check_id_psr = "ext_ticket_no"#trade_no
@@ -220,5 +225,7 @@ if __name__ == "__main__":
     file_name_commreserve = "railwaycommreserve.csv"
     check_id_commreserve = ["sequenceNo","batchNo","ticketNo"]
     sort_id_commreserve = ["startTrainDate","startTime"]#reserveTime
+
+    file_name_ecardreserve = "railwayecardreserve.csv"
 
     main()
