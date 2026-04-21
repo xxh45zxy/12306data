@@ -189,43 +189,50 @@ def main():
 
 if __name__ == "__main__":
 
+    # 手工区分不同账户
+    account = ""
+    if account == "":
+        file_account = ""
+    else:
+        file_account = "-" + account
+    
     # tripdetail和notice查询时间限制
     time_limit = 80
 
-    file_name_psr = "railwaypsr.csv"
+    file_name_psr = f"railwaypsr{file_account}.csv"
     check_id_psr = "ext_ticket_no"#trade_no
     sort_id_psr = "local_start_time"
-    file_name_trip = "railwaytrip.csv"
+    file_name_trip = f"railwaytrip{file_account}.csv"
     check_id_trip = "sequence_no"
     sort_id_trip = "order_date"#start_train_date_page
-    file_name_tripdetail = "railwaytripdetail.csv"
+    file_name_tripdetail = f"railwaytripdetail{file_account}.csv"
     check_id_tripdetail = ""
     sort_id_tripdetail = "operate_time"
-    file_name_alternate = "railwayalternate.csv"
+    file_name_alternate = f"railwayalternate{file_account}.csv"
     check_id_alternate = "reserve_no"
     sort_id_alternate = "trace_id"
-    file_name_memtrade = "railwaymemtrade.csv"
+    file_name_memtrade = f"railwaymemtrade{file_account}.csv"
     check_id_memtrade = "trade_id"
     sort_id_memtrade = ["trade_time","start_date"]
-    file_name_memtradedetail = "railwaymemtradedetail.csv"
+    file_name_memtradedetail = f"railwaymemtradedetail{file_account}.csv"
     check_id_memtradedetail = "trade_id"
     sort_id_memtradedetail = "train_date"
-    file_name_invoice = "railwayinvoice.csv"
+    file_name_invoice = f"railwayinvoice{file_account}.csv"
     check_id_invoice = "ext_ticket_no"
     sort_id_invoice = "local_start_time"
-    file_name_comminvoice = "railwaycomminvoice.csv"
+    file_name_comminvoice = f"railwaycomminvoice{file_account}.csv"
     check_id_comminvoice = "orderId"
     sort_id_comminvoice = "saleTime"
-    file_name_notice = "railwaynotice.csv"
+    file_name_notice = f"railwaynotice{file_account}.csv"
     check_id_notice = "ext_ticket_no"
     sort_id_notice = "local_start_time"
-    file_name_commorder = "railwaycommorder.csv"
+    file_name_commorder = f"railwaycommorder{file_account}.csv"
     check_id_commorder = "orderId"
     sort_id_commorder = "saleTime"
-    file_name_commreserve = "railwaycommreserve.csv"
+    file_name_commreserve = f"railwaycommreserve{file_account}.csv"
     check_id_commreserve = ["sequenceNo","batchNo","ticketNo"]
     sort_id_commreserve = ["startTrainDate","startTime"]#reserveTime
 
-    file_name_ecardreserve = "railwayecardreserve.csv"
+    file_name_ecardreserve = f"railwayecardreserve{file_account}.csv"
 
     main()
