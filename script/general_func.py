@@ -130,7 +130,7 @@ def save_csv(file_name,check_id,sort_id,existing_data,all_new_data,sort_ok,keep_
             all_new_data_unique = all_new_data.drop_duplicates()'''
             
         # 将新的唯一数据与现有数据合并
-        combined_data = pd.concat([existing_data, all_new_data_unique], ignore_index=True)  
+        combined_data = pd.concat([existing_data, all_new_data_unique], ignore_index=True).fillna("")  
 
         combined_data_unique = handle_duplicate_new(combined_data,check_id,keep_which)
 
